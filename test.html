@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <SCRIPT>
+        let startTime = 0.0;
+        let state = 'green';
+        const url = 'http://localhost:3000'; // change this to IP address of server
+        function Start() {
+            // start the countDown 
+            state = 'green';
+            setColor(state);
+            let delay = Math.round(Math.random()*10000);
+            console.log("delay="+delay)
+            setTimeout(goRed, delay);
+        }
+        function goRed(){
+            state = 'red';
+            startTime = performance.now()  // start the timing
+            document.getElementById('block1').style.backgroundColor = 'red'
+        }
+        function setColor(c){
+            console.log('setting color to '+c);
+            document.getElementById('block1').style.backgroundColor = c;
+        }
+        function writeMessage(m){
+            document.getElementById("message").value =  m
+            // send position data to Server in url
+            fetch(url + '/set?x=' + m)
+                .then(response => response.json())
+                .then(data => inject(data));
+            console.log(m)
+        }
+        function inject(data){
+            document.getElementById("label").innerHTML =  "Fastest Reaction Recorded:" + data;
+        }
+        function getFastest(){
+            fetch(url + '/fastest')
+                .then(response => response.json())
+                .then(data => inject(data));
+            
+        }
+        function checkForDeath(time){
+            if(time > 5000){
+                document.getElementById("label").innerHTML =  "NEAR DEATH SEEK MEDICAL HELP:";
+            }
+        }
+        function Stop() {
+            if(state == 'green') return;
+            let endTime = performance.now();
+            let time = Math.floor(endTime - startTime);
+            writeMessage(time);
+            checkForDeath(time);
+            setColor('white');
+            state = 'green';
+        }
+    </SCRIPT>
+</head>
+
+<body>
+    <p>Click on Start Game - when you see red click Stop".</p>
+    <button class="button button1" id = "b0" onclick="Start()">Start</button>
+    <div id = "block1" style.backgroundColor='green'>
+    <button class="button button2" id = "b1" onclick="Stop()">Stop</button>
+    </div>
+    <label id = "label">Your Reaction Time Millesecs: </label>
+    <input id = "message">  </input>
+</body>
+</html>

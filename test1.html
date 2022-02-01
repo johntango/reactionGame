@@ -1,0 +1,32 @@
+<html>
+<head>
+    <SCRIPT>
+        let startTime = 0.0;
+        function Start() {
+            // start the countDown 
+            state = 'green';
+            let delay = Math.round(Math.random()*10000);
+            setTimeout(goRed, delay); 
+        }
+        function goRed(){
+        }
+        function setColor(c){
+        }
+        function writeMessage(m){
+            document.getElementById("message").value = m 
+        }
+        function Stop() 
+        }
+    </SCRIPT>
+</head>
+
+<body>
+    <p>Click on Start Game - when you see red click Stop".</p>
+    <button class="button button1" id = "b0" onclick="Start()">Start</button>
+    <div id = "block1" style.backgroundColor='green'>
+        <button class="button button2" id = "b1" onclick="Stop()">Stop</button>
+    </div>
+    <label id = "label">Fastest Reaction Recorded: </label>
+    <input id = "message"> Your Reaction Time Millesecs </input>
+</body>
+</html>
