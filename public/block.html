@@ -21,7 +21,7 @@
     <SCRIPT>
         let startTime = 0.0;
         let state = 'green';
-        const url = 'http://localhost:3000'; // change this to IP address of server
+        const url = 'http://10.29.51.17:3000'; // change this to IP address of server
         function Start() {
             // start the countDown 
             state = 'green';
@@ -43,12 +43,10 @@
             document.getElementById("message").value =  m
             // send position data to Server in url
             fetch(url + '/set?x=' + m)
-                .then(response => response.json())
-                .then(data => inject(data));
             console.log(m)
         }
         function inject(data){
-            document.getElementById("label").innerHTML =  "Fastest Reaction Recorded:" + data;
+            document.getElementById("message2").value =  "Fastest ever::"+data;
         }
         function getFastest(){
             fetch(url + '/fastest')
@@ -66,6 +64,7 @@
             let endTime = performance.now();
             let time = Math.floor(endTime - startTime);
             writeMessage(time);
+            getFastest()
             checkForDeath(time);
             setColor('white');
             state = 'green';
@@ -79,7 +78,9 @@
     <div id = "block1" style.backgroundColor='green'>
     <button class="button button2" id = "b1" onclick="Stop()">Stop</button>
     </div>
-    <label id = "label">Fastest Reaction Recorded: </label>
-    <input id = "message"> Your Reaction Time Millesecs </input>
+    <label id = "label">Your Reaction Time: </label><br>
+    <input id = "message">  </input>
+    <input id = "message2"> Fastest </input><br>
+    <button class="button button1" id = "b2" onclick="getFastest()">Get Fastest</button>
 </body>
 </html>

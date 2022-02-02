@@ -1,0 +1,47 @@
+<html>
+<head>
+    <SCRIPT>
+        let startTime = 0.0;
+        let state = 'green';
+    
+        function Start() {
+            // start the countDown 
+            state = 'green';
+            setColor(state);
+            let delay = Math.round(Math.random()*10000)
+            setTimeout(goRed, delay);
+        }
+        function goRed(){
+            state = 'red';
+            startTime = performance.now()  // start the timing
+            setColor(state)
+        }
+        function setColor(c){
+            console.log('setting color to '+c);
+            document.getElementById('block1').style.backgroundColor = c;
+        }
+        function writeMessage(m){
+            document.getElementById("message").value =  m
+            console.log(m)
+        }
+
+        function Stop() {
+            let endTime = performance.now();
+            let time = Math.floor(endTime - startTime);
+            writeMessage(time);
+            setColor('white');
+            state = 'green';
+        }
+    </SCRIPT>
+</head>
+
+<body>
+    <p>Click Start - When you see red click Stop".</p>
+    <button class="button button1" id = "b0" onclick="Start()">Start</button>
+    <div id = "block1" style.backgroundColor='green'>
+    <button class="button button2" id = "b1" onclick="Stop()">Stop</button>
+    </div>
+    <label id = "label">Reaction in Millesecs: </label><br>
+    <input id = "message">  </input>
+</body>
+</html>
